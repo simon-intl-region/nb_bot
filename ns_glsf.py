@@ -1,7 +1,9 @@
+import os
 import time
 from datetime import datetime, timedelta
 
 import requests
+from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import (
     CallbackContext,
@@ -11,31 +13,34 @@ from telegram.ext import (
     filters,
 )
 
-# 봇 토큰을 입력하세요.
-bot_token = "5742885964:AAH2Wi0XvA_kRxoFSb1oz5mLTavqmXczN2g"
+# Load the .env file.
+load_dotenv()
 
-# 대상 채팅 ID를 입력하세요.
+# Get env variables.
+bot_token = os.getenv("BOT_TOKEN")
+
+# Enter the target chat ID.
 chat_id_gbtf = ["-4080996432"]
 
-# # 원하는 년도를 설정합니다.
+# # Set the desired year.
 # desired_year = '40'
 # desired_day = '19'
 
-# # 현재 날짜와 시간을 가져옵니다.
+# # Get the current date and time.
 # current_date = datetime.now()
 
-# # 원하는 년도로 날짜를 변경합니다.
+# # Change the date to the desired year.
 # current_date = current_date.replace(year=int(desired_year))
 
-# # 날짜를 원하는 형식으로 포맷팅합니다. (예: YYYY-MM-DD)
+# # Format the date in the desired format. (e.g., YYYY-MM-DD)
 # newdate = current_date.strftime(f'{desired_year}%m%{desired_day}')
 
-# 보낼 메세지 내용을 입력하세요.
+# Enter the message content to send.
 message_notice = """
-Testing 2
+Message from Global Friend to Tech Team Room 🌟
 """
 
-# text message to send to tech team room
+# Text message to send to the tech team room.
 message_encourage_screenshot = """
 [🌟🏔️ 저는 글로벌특전대 알리미 SATU 🏔️🌟]\n\n
 ✨ 오늘은 예배날 🔖\n
@@ -48,14 +53,14 @@ message_encourage_screenshot = """
 저는 글로벌특전대 알리미 SATU 🏔️
 """
 
-# 텔레그램 봇 API URL
+# Telegram bot API URL.
 url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
 
-# 메세지를 보내는 요청 보내기
+# Send a request to send the message.
 # data1 = {'chat_id': chat_id, 'text': message_notice}
 # response1 = requests.post(url, data=data1)
 
-# 글로벌특전대 운영방
+# Global Special Forces Operation Room.
 for chat_id in chat_id_gbtf:
     data2 = {"chat_id": chat_id, "text": message_notice}
     response = requests.post(url, data=data2)
