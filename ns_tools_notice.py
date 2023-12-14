@@ -48,26 +48,30 @@ current_date = current_date.replace(year=int(desired_year))
 newdate = current_date.strftime(f"{desired_year}%m%d")
 
 # Enter the message content to send.
-message = f"""
-☁️{newdate} Scheduled Message from Global Friend to Tech Team Room 🌟
+final_date = datetime.now() + timedelta(days=13)
+d_string = "D-" + str((final_date - datetime.now()).days)
+message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
+인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
+이 기회 놓치면 너무 아쉬우니까 
+지금 당장 DM 보내러 고고🔥
 """
 
 # Messages for compiling attendance
 scheduled_times = {
-    # if 0, then send message at 9, 12, 18, 21 o'clock everyday
+    # if -1, then send message at 9, 12, 18, 21 o'clock everyday
     -1: [
         datetime.now().replace(hour=9, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=12, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=18, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=21, minute=0, second=0, microsecond=0),
     ],  # Everyday
-    0: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Monday
-    1: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Tuesday
-    2: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Wednesday
-    3: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Thursday
-    4: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Friday
-    5: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Saturday
-    6: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Sunday
+    # 0: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Monday
+    # 1: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Tuesday
+    # 2: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Wednesday
+    # 3: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Thursday
+    # 4: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Friday
+    # 5: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Saturday
+    # 6: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Sunday
 }
 
 # Telegram bot API URL
