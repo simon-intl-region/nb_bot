@@ -22,35 +22,13 @@ bot_token = os.getenv("BOT_TOKEN")
 # Enter the target chat ID.
 chat_id_gbtf = ["-4080996432"]
 
-# # Set the desired year.
-# desired_year = '40'
-# desired_day = '19'
-
-# # Get the current date and time.
-# current_date = datetime.now()
-
-# # Change the date to the desired year.
-# current_date = current_date.replace(year=int(desired_year))
-
-# # Format the date in the desired format. (e.g., YYYY-MM-DD)
-# newdate = current_date.strftime(f'{desired_year}%m%{desired_day}')
-
 # Enter the message content to send.
-message_notice = """
-Message from Global Friend to Tech Team Room 🌟
-"""
-
-# Text message to send to the tech team room.
-message_encourage_screenshot = """
-[🌟🏔️ 저는 글로벌특전대 알리미 SATU 🏔️🌟]\n\n
-✨ 오늘은 예배날 🔖\n
-오늘은 영들과 하나되어 말씀으로 나를 씻는 시간이예요! 한 번 마음내서 준비해볼까요?\n
-그리고 예배 후 꼭 '인증!' 부탁드릴게요 :)\n
-오늘도 짧게나마 활동 후 보고부탁드려요~~!\n\n
-예배 인증 🤳
-구님과 소통 💕 
-나를 씻는 소중한 시간 🐳
-저는 글로벌특전대 알리미 SATU 🏔️
+final_date = datetime.now() + timedelta(days=13)
+d_string = "D-" + str((final_date - datetime.now()).days)
+message_notice = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
+인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
+이 기회 놓치면 너무 아쉬우니까 
+지금 당장 DM 보내러 고고🔥
 """
 
 # Telegram bot API URL.
