@@ -86,7 +86,7 @@ while True:
     # Send scheduled messages for the current weekday
     current_weekday = get_current_weekday()
     if -1 in scheduled_times:  # everyday messages
-        for scheduled_time in scheduled_times[0]:
+        for scheduled_time in scheduled_times[-1]:
             send_scheduled_message(message, chat_id_ny, scheduled_time)
             print("Group message sending completed. [0th round]")
 
