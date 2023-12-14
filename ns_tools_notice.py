@@ -1,6 +1,7 @@
 import os
 import time
 from datetime import datetime, timedelta
+import json
 
 import requests
 from dotenv import load_dotenv
@@ -12,7 +13,7 @@ def send_scheduled_message(message, chat_id, scheduled_time):
         time_difference = scheduled_time - current_time
         time.sleep(time_difference.total_seconds())
 
-        for chat_id in chat_id_ny:
+        for chat_id in chat_ids:
             data = {"chat_id": chat_id, "text": message}
             response = requests.post(url, data=data)
             if response.status_code == 200:
@@ -33,7 +34,11 @@ load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
 
 # Telegram room id where we send the messages
-chat_id_ny = ["-4080996432"]
+# import from json file named youth_groups.json
+with open("youth_groups.json", "r") as f:
+    youth_groups = json.load(f)
+
+chat_ids = youth_groups
 
 # Set the desired year.
 desired_year = "40"
@@ -64,6 +69,7 @@ scheduled_times = {
         datetime.now().replace(hour=12, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=18, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=21, minute=0, second=0, microsecond=0),
+        datetime.now().replace(hour=23, minute=35, second=0, microsecond=0),
     ],  # Everyday
     # 0: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Monday
     # 1: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Tuesday
@@ -87,13 +93,13 @@ while True:
     current_weekday = get_current_weekday()
     if -1 in scheduled_times:  # everyday messages
         for scheduled_time in scheduled_times[-1]:
-            send_scheduled_message(message, chat_id_ny, scheduled_time)
+            send_scheduled_message(message, chat_ids, scheduled_time)
             print("Group message sending completed. [0th round]")
 
     if current_weekday in scheduled_times:  # weekday messages
         scheduled_time = scheduled_times[current_weekday]
         print("[1st round] Group message sending completed.")
-        send_scheduled_message(message, chat_id_ny, scheduled_time)  # 남영
+        send_scheduled_message(message, chat_ids, scheduled_time)  # 남영
         print("Group message sending completed. [1st round]")
     else:
         print("Today is not the day to send scheduled messages. [1st round]")
