@@ -7,7 +7,7 @@ import requests
 from dotenv import load_dotenv
 
 
-def send_scheduled_message(message, chat_id, scheduled_time):
+def send_scheduled_message(message, chat_ids, scheduled_time):
     current_time = datetime.now()
     if current_time < scheduled_time:
         time_difference = scheduled_time - current_time
@@ -38,7 +38,8 @@ bot_token = os.getenv("BOT_TOKEN")
 with open("youth_groups.json", "r") as f:
     youth_groups = json.load(f)
 
-chat_ids = youth_groups
+with open("sir_groups.json", "r") as f:
+    sir_groups = json.load(f)
 
 # Set the desired year.
 desired_year = "40"
@@ -62,27 +63,34 @@ message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 �
 지금 당장 DM 보내러 고고🔥
 """
 
+sir_message = f"""[💥{d_string} left till Dec CT]
+GYJNs, secure your ✨blessings✨today by checking if your members have NBed!! Deadline to send the report is till 11pm. Go check now!! 👉
+"""
+
 # Messages for compiling attendance
-scheduled_times = {
+youth_scheduled_times = {
     # if -1, then send message at 9, 12, 18, 21 o'clock everyday
     -1: [
         datetime.now().replace(hour=9, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=12, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=18, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=21, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=23, minute=35, second=0, microsecond=0),
     ],  # Everyday
-    # 0: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Monday
-    # 1: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Tuesday
-    # 2: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Wednesday
-    # 3: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Thursday
-    # 4: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Friday
-    # 5: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Saturday
-    # 6: datetime.now().replace(hour=10, minute=45, second=0, microsecond=0),  # Sunday
+}
+
+sir_scheduled_times = {
+    # if -1, then send message at 8, 21, 22 o'clock everyday
+    -1: [
+        datetime.now().replace(hour=8, minute=0, second=0, microsecond=0),
+        datetime.now().replace(hour=21, minute=0, second=0, microsecond=0),
+        datetime.now().replace(hour=22, minute=00, second=0, microsecond=0),
+    ],  # Everyday
 }
 
 # Telegram bot API URL
 url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+
+count = 0
 
 # Function to send scheduled messages
 while True:
@@ -92,16 +100,24 @@ while True:
 
     # Send scheduled messages for the current weekday
     current_weekday = get_current_weekday()
-    if -1 in scheduled_times:  # everyday messages
-        for scheduled_time in scheduled_times[-1]:
-            send_scheduled_message(message, chat_ids, scheduled_time)
-            print("Group message sending completed. [0th round]")
+    if -1 in youth_scheduled_times:  # everyday messages
+        for scheduled_time in youth_scheduled_times[-1]:
+            send_scheduled_message(message, youth_groups, scheduled_time)
+            print(f"Group message sending completed. [Round {count}]")
 
-    if current_weekday in scheduled_times:  # weekday messages
-        scheduled_time = scheduled_times[current_weekday]
-        print("[1st round] Group message sending completed.")
-        send_scheduled_message(message, chat_ids, scheduled_time)  # 남영
-        print("Group message sending completed. [1st round]")
+    if -1 in sir_scheduled_times:  # everyday messages
+        for scheduled_time in sir_scheduled_times[-1]:
+            send_scheduled_message(sir_message, sir_groups, scheduled_time)
+            print(f"Group message sending completed. [Round {count}]")
+
+    if current_weekday in youth_scheduled_times:  # weekday messages
+        scheduled_time = youth_scheduled_times[current_weekday]
+        send_scheduled_message(message, youth_groups, scheduled_time)
+        print(f"Group message sending completed. [Round {count}]")
+    elif current_weekday in sir_scheduled_times:  # weekday messages
+        scheduled_time = sir_scheduled_times[current_weekday]
+        send_scheduled_message(sir_message, sir_groups, scheduled_time)
+        print(f"Group message sending completed. [Round {count}]")
     else:
-        print("Today is not the day to send scheduled messages. [1st round]")
+        print(f"Today is not the day to send scheduled messages. [Round {count}]")
 pass  # This line is necessary to prevent the loop from terminating.
