@@ -7,23 +7,28 @@ import requests
 from dotenv import load_dotenv
 
 
-def send_scheduled_message(message, chat_ids, scheduled_time):
-    current_time = datetime.now()
-    if current_time < scheduled_time:
-        time_difference = scheduled_time - current_time
-        time.sleep(time_difference.total_seconds())
+def print_log(message):
+    print(f"[{datetime.now().strftime('%D %H:%M')}]: {message}")
 
+
+def send_scheduled_message(type, message, chat_ids, scheduled_time):
+    current_time = datetime.now()
+
+    if current_time < scheduled_time:
         for chat_id in chat_ids:
             data = {"chat_id": chat_id, "text": message}
             response = requests.post(url, data=data)
             if response.status_code == 200:
-                print(f"Scheduled message sent successfully.")
+                print_log(
+                    f"Scheduled message sent successfully. TYPE: {type}, CHAT_ID: {chat_id}"
+                )
             else:
-                print(f"Failed to send scheduled message: {response.status_code}")
-                print(response.text)
+                print_log(
+                    f"Failed to send scheduled message: TYPE: {type}, CHAT_ID: {chat_id} {response.status_code}"
+                )
     else:
-        print(f"The scheduled time has already passed. The message was not sent.")
-        time.sleep(1)
+        print_log(f"The scheduled time has already passed. The message was not sent.")
+        time.sleep(5)
 
 
 # Load the .env file.
@@ -56,7 +61,7 @@ newdate = current_date.strftime(f"{desired_year}%m%d")
 # final date is Dec 26, 2023
 final_date = datetime.strptime("2023-12-28", "%Y-%m-%d")
 d_string = "D-" + str((final_date - datetime.now()).days)
-message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
+youth_message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
 인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
 이 기회 놓치면 너무 아쉬우니까 
 지금 당장 DM 보내러 고고🔥
@@ -67,22 +72,69 @@ GYJNs, secure your ✨blessings✨today by checking if your members have NBed!! 
 """
 
 # Messages for compiling attendance
-youth_scheduled_times = {
-    # if -1, then send message at 9, 12, 18, 21 o'clock everyday
+scheduled_times = {
     -1: [
-        datetime.now().replace(hour=9, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=12, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=18, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=21, minute=35, second=0, microsecond=0),
-    ],  # Everyday
-}
-
-sir_scheduled_times = {
-    # if -1, then send message at 8, 21, 22 o'clock everyday
-    -1: [
-        datetime.now().replace(hour=8, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=21, minute=35, second=0, microsecond=0),
-        datetime.now().replace(hour=22, minute=00, second=0, microsecond=0),
+        {
+            "schedule": datetime.now().replace(
+                hour=9, minute=0, second=0, microsecond=0
+            ),
+            "type": "YOUTH",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=12, minute=0, second=0, microsecond=0
+            ),
+            "type": "YOUTH",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=18, minute=0, second=0, microsecond=0
+            ),
+            "type": "YOUTH",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=21, minute=0, second=0, microsecond=0
+            ),
+            "type": "YOUTH",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=22, minute=2, second=0, microsecond=0
+            ),
+            "type": "YOUTH",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=8, minute=0, second=0, microsecond=0
+            ),
+            "type": "SIR",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=21, minute=0, second=0, microsecond=0
+            ),
+            "type": "SIR",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=22, minute=0, second=0, microsecond=0
+            ),
+            "type": "SIR",
+        },
+        # TEST TIMES
+        # {
+        #     "schedule": datetime.now().replace(
+        #         hour=22, minute=41, second=0, microsecond=0
+        #     ),
+        #     "type": "YOUTH",
+        # },
+        # {
+        #     "schedule": datetime.now().replace(
+        #         hour=22, minute=41, second=0, microsecond=0
+        #     ),
+        #     "type": "SIR",
+        # },
     ],  # Everyday
 }
 
@@ -99,24 +151,41 @@ while True:
 
     # Send scheduled messages for the current weekday
     current_weekday = get_current_weekday()
-    if -1 in youth_scheduled_times:  # everyday messages
-        for scheduled_time in youth_scheduled_times[-1]:
-            send_scheduled_message(message, youth_groups, scheduled_time)
-            print(f"Group message sending completed. [Round {count}]")
+    if -1 in scheduled_times:  # everyday messages
+        for scheduled_time in scheduled_times[-1]:
+            if scheduled_time["type"] == "YOUTH":
+                send_scheduled_message(
+                    scheduled_time["type"],
+                    youth_message,
+                    youth_groups,
+                    scheduled_time["schedule"],
+                )
+            elif scheduled_time["type"] == "SIR":
+                send_scheduled_message(
+                    scheduled_time["type"],
+                    sir_message,
+                    sir_groups,
+                    scheduled_time["schedule"],
+                )
 
-    if -1 in sir_scheduled_times:  # everyday messages
-        for scheduled_time in sir_scheduled_times[-1]:
-            send_scheduled_message(sir_message, sir_groups, scheduled_time)
-            print(f"Group message sending completed. [Round {count}]")
-
-    if current_weekday in youth_scheduled_times:  # weekday messages
-        scheduled_time = youth_scheduled_times[current_weekday]
-        send_scheduled_message(message, youth_groups, scheduled_time)
-        print(f"Group message sending completed. [Round {count}]")
-    elif current_weekday in sir_scheduled_times:  # weekday messages
-        scheduled_time = sir_scheduled_times[current_weekday]
-        send_scheduled_message(sir_message, sir_groups, scheduled_time)
-        print(f"Group message sending completed. [Round {count}]")
+    if current_weekday in scheduled_times:  # weekday messages
+        scheduled_time = scheduled_times[current_weekday]
+        # check type
+        if scheduled_time["type"] == "YOUTH":
+            send_scheduled_message(
+                scheduled_time["type"],
+                youth_message,
+                youth_groups,
+                scheduled_time["schedule"],
+            )
+        elif scheduled_time["type"] == "SIR":
+            send_scheduled_message(
+                scheduled_time["type"],
+                sir_message,
+                sir_groups,
+                scheduled_time["schedule"],
+            )
     else:
-        print(f"Today is not the day to send scheduled messages. [Round {count}]")
+        time_str = scheduled_time["schedule"].strftime("%D %H:%M")
+        print_log(f"Today is not the day to send scheduled messages.")
 pass  # This line is necessary to prevent the loop from terminating.
