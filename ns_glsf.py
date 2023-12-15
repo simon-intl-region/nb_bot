@@ -31,6 +31,10 @@ message_notice = f"""(글특알리미) 마나도 소성에 함께할 수 있는�
 지금 당장 DM 보내러 고고🔥
 """
 
+sir_message = f"""[💥{d_string} left till Dec CT]
+GYJNs, secure your ✨blessings✨today by checking if your members have NBed!! Deadline to send the report is till 11pm. Go check now!! 👉
+"""
+
 # Telegram bot API URL.
 url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
 
@@ -40,5 +44,4 @@ url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
 
 # Global Special Forces Operation Room.
 for chat_id in chat_id_gbtf:
-    data2 = {"chat_id": chat_id, "text": message_notice}
-    response = requests.post(url, data=data2)
+    response = requests.post(url, data={"chat_id": chat_id, "text": sir_message})
