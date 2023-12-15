@@ -17,11 +17,10 @@ def send_scheduled_message(message, chat_ids, scheduled_time):
             data = {"chat_id": chat_id, "text": message}
             response = requests.post(url, data=data)
             if response.status_code == 200:
-                print(f"[Test] Scheduled message sent successfully.")
+                print(f"Scheduled message sent successfully.")
             else:
-                print(
-                    f"Failed to send scheduled message: [Namyeong] {response.status_code}"
-                )
+                print(f"Failed to send scheduled message: {response.status_code}")
+                print(response.text)
     else:
         print(f"The scheduled time has already passed. The message was not sent.")
         time.sleep(1)
@@ -74,7 +73,7 @@ youth_scheduled_times = {
         datetime.now().replace(hour=9, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=12, minute=0, second=0, microsecond=0),
         datetime.now().replace(hour=18, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=21, minute=0, second=0, microsecond=0),
+        datetime.now().replace(hour=21, minute=35, second=0, microsecond=0),
     ],  # Everyday
 }
 
@@ -82,7 +81,7 @@ sir_scheduled_times = {
     # if -1, then send message at 8, 21, 22 o'clock everyday
     -1: [
         datetime.now().replace(hour=8, minute=0, second=0, microsecond=0),
-        datetime.now().replace(hour=21, minute=0, second=0, microsecond=0),
+        datetime.now().replace(hour=21, minute=35, second=0, microsecond=0),
         datetime.now().replace(hour=22, minute=00, second=0, microsecond=0),
     ],  # Everyday
 }
