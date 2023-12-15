@@ -23,7 +23,7 @@ bot_token = os.getenv("BOT_TOKEN")
 chat_id_gbtf = ["-4080996432"]
 
 # Enter the message content to send.
-final_date = datetime.now() + timedelta(days=13)
+final_date = datetime.strptime("2023-12-28", "%Y-%m-%d")
 d_string = "D-" + str((final_date - datetime.now()).days)
 message_notice = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
 인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
