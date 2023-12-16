@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 def print_log(message):
     print(f"[{datetime.now().strftime('%D %H:%M')}]: {message}")
+    with open("log.txt", "a") as f:
+        f.write(f"[{datetime.now().strftime('%D %H:%M')}]: {message}\n")
 
 
 def send_scheduled_message(type, message, chat_ids, scheduled_time):
@@ -125,13 +127,13 @@ scheduled_times = {
         # TEST TIMES
         # {
         #     "schedule": datetime.now().replace(
-        #         hour=22, minute=41, second=0, microsecond=0
+        #         hour=9, minute=41, second=0, microsecond=0
         #     ),
         #     "type": "YOUTH",
         # },
         # {
         #     "schedule": datetime.now().replace(
-        #         hour=22, minute=41, second=0, microsecond=0
+        #         hour=9, minute=41, second=0, microsecond=0
         #     ),
         #     "type": "SIR",
         # },
