@@ -115,13 +115,13 @@ scheduled_times = {
         },
         {
             "schedule": datetime.now().replace(
-                hour=8, minute=0, second=0, microsecond=0
+                hour=9, minute=0, second=0, microsecond=0
             ),
             "type": "SIR",
         },
         {
             "schedule": datetime.now().replace(
-                hour=21, minute=0, second=0, microsecond=0
+                hour=18, minute=0, second=0, microsecond=0
             ),
             "type": "SIR",
         },
