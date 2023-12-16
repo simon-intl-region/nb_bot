@@ -16,7 +16,7 @@ def print_log(message):
 def send_scheduled_message(type, message, chat_ids, scheduled_time):
     current_time = datetime.now()
 
-    if current_time < scheduled_time:
+    if current_time.replace(second=0, microsecond=0) == scheduled_time:
         for chat_id in chat_ids:
             data = {"chat_id": chat_id, "text": message}
             response = requests.post(url, data=data)
@@ -30,7 +30,6 @@ def send_scheduled_message(type, message, chat_ids, scheduled_time):
                 )
     else:
         print_log(f"The scheduled time has already passed. The message was not sent.")
-        time.sleep(5)
 
 
 # Load the .env file.
@@ -125,25 +124,23 @@ scheduled_times = {
             "type": "SIR",
         },
         # TEST TIMES
-        # {
-        #     "schedule": datetime.now().replace(
-        #         hour=9, minute=41, second=0, microsecond=0
-        #     ),
-        #     "type": "YOUTH",
-        # },
-        # {
-        #     "schedule": datetime.now().replace(
-        #         hour=9, minute=41, second=0, microsecond=0
-        #     ),
-        #     "type": "SIR",
-        # },
+        {
+            "schedule": datetime.now().replace(
+                hour=11, minute=6, second=0, microsecond=0
+            ),
+            "type": "TEST",
+        },
+        {
+            "schedule": datetime.now().replace(
+                hour=11, minute=6, second=0, microsecond=0
+            ),
+            "type": "TEST",
+        },
     ],  # Everyday
 }
 
 # Telegram bot API URL
 url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-
-count = 0
 
 # Function to send scheduled messages
 while True:
@@ -169,6 +166,13 @@ while True:
                     sir_groups,
                     scheduled_time["schedule"],
                 )
+            elif scheduled_time["type"] == "TEST":
+                send_scheduled_message(
+                    scheduled_time["type"],
+                    "This is a test message",
+                    ["-4026674973"],
+                    scheduled_time["schedule"],
+                )
 
     if current_weekday in scheduled_times:  # weekday messages
         scheduled_time = scheduled_times[current_weekday]
@@ -187,7 +191,17 @@ while True:
                 sir_groups,
                 scheduled_time["schedule"],
             )
+        elif scheduled_time["type"] == "TEST":
+            send_scheduled_message(
+                scheduled_time["type"],
+                "This is a test message",
+                ["-4026674973"],
+                scheduled_time["schedule"],
+            )
     else:
         time_str = scheduled_time["schedule"].strftime("%D %H:%M")
         print_log(f"Today is not the day to send scheduled messages.")
+
+    # sleep for the rest of the minute
+    time.sleep(60 - datetime.now().second)
 pass  # This line is necessary to prevent the loop from terminating.
