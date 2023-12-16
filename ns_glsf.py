@@ -20,7 +20,7 @@ load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
 
 # Enter the target chat ID.
-chat_id_gbtf = ["-4080996432"]
+chat_ids = ["-4080996432"]
 
 # Enter the message content to send.
 final_date = datetime.strptime("2023-12-28", "%Y-%m-%d")
@@ -38,10 +38,12 @@ GYJNs, secure your ✨blessings✨today by checking if your members have NBed!! 
 # Telegram bot API URL.
 url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
 
-# Send a request to send the message.
-# data1 = {'chat_id': chat_id, 'text': message_notice}
-# response1 = requests.post(url, data=data1)
-
 # Global Special Forces Operation Room.
-for chat_id in chat_id_gbtf:
-    response = requests.post(url, data={"chat_id": chat_id, "text": sir_message})
+for chat_id in chat_ids:
+    response = requests.post(
+        url,
+        data={
+            "chat_id": chat_id,
+            "text": f"[{datetime.now().strftime('%D %H:%M')}]: {sir_message}\n",
+        },
+    )
