@@ -109,7 +109,7 @@ scheduled_times = {
         },
         {
             "schedule": datetime.now().replace(
-                hour=22, minute=2, second=0, microsecond=0
+                hour=22, minute=0, second=0, microsecond=0
             ),
             "type": "YOUTH",
         },
@@ -207,7 +207,6 @@ while True:
                 scheduled_time["schedule"],
             )
     else:
-        time_str = scheduled_time["schedule"].strftime("%D %H:%M")
         print_log(f"Today is not the day to send scheduled messages.")
 
     # sleep for the rest of the minute
