@@ -1,7 +1,7 @@
+import json
 import os
 import time
 from datetime import datetime, timedelta
-import json
 
 import requests
 from dotenv import load_dotenv
@@ -24,6 +24,14 @@ def send_scheduled_message(type, message, chat_ids, scheduled_time):
                 print_log(
                     f"Scheduled message sent successfully. TYPE: {type}, CHAT_ID: {chat_id}"
                 )
+
+                # send message to test chatroom with log
+                data = {
+                    "chat_id": "-4026674973",
+                    "text": f"Scheduled message sent successfully. TYPE: {type}, CHAT_ID: {chat_id}",
+                }
+                response = requests.post(url, data=data)
+
             else:
                 print_log(
                     f"Failed to send scheduled message: TYPE: {type}, CHAT_ID: {chat_id} {response.status_code}"
