@@ -20,7 +20,7 @@ load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
 
 # Enter the target chat ID.
-chat_ids = ["-4080996432"]
+chat_ids = ["-4026674973"]
 
 # Enter the message content to send.
 final_date = datetime.strptime("2023-12-28", "%Y-%m-%d")
