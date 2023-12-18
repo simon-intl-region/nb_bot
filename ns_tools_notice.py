@@ -41,6 +41,12 @@ def send_scheduled_message(type, message, chat_ids, scheduled_time):
                 print_log(
                     f"Failed to send scheduled message: TYPE: {type}, CHAT_ID: {chat_id} {response.status_code}"
                 )
+
+                # send message to test chatroom with log
+                data = {
+                    "chat_id": "-4026674973",
+                    "text": f"Failed to send scheduled message: TYPE: {type}, CHAT_ID: {chat_id} {response.status_code}",
+                }
     else:
         print_log(f"The scheduled time has already passed. The message was not sent.")
 
@@ -51,7 +57,7 @@ def get_schedueled_times():
         -1: [
             {
                 "schedule": datetime.now().replace(
-                    hour=9, minute=12, second=0, microsecond=0
+                    hour=9, minute=0, second=0, microsecond=0
                 ),
                 "type": "YOUTH",
             },
@@ -81,19 +87,13 @@ def get_schedueled_times():
             },
             {
                 "schedule": datetime.now().replace(
-                    hour=9, minute=12, second=0, microsecond=0
+                    hour=9, minute=0, second=0, microsecond=0
                 ),
                 "type": "SIR",
             },
             {
                 "schedule": datetime.now().replace(
                     hour=18, minute=0, second=0, microsecond=0
-                ),
-                "type": "SIR",
-            },
-            {
-                "schedule": datetime.now().replace(
-                    hour=22, minute=0, second=0, microsecond=0
                 ),
                 "type": "SIR",
             },
