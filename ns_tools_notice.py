@@ -51,7 +51,7 @@ def get_schedueled_times():
         -1: [
             {
                 "schedule": datetime.now().replace(
-                    hour=9, minute=11, second=0, microsecond=0
+                    hour=9, minute=12, second=0, microsecond=0
                 ),
                 "type": "YOUTH",
             },
@@ -81,7 +81,7 @@ def get_schedueled_times():
             },
             {
                 "schedule": datetime.now().replace(
-                    hour=9, minute=11, second=0, microsecond=0
+                    hour=9, minute=12, second=0, microsecond=0
                 ),
                 "type": "SIR",
             },
