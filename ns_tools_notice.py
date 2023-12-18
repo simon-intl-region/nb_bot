@@ -13,6 +13,11 @@ def print_log(message):
         f.write(f"[{datetime.now().strftime('%D %H:%M')}]: {message}\n")
 
 
+# Function to get the current weekday
+def get_current_weekday():
+    return datetime.now().weekday()
+
+
 def send_scheduled_message(type, message, chat_ids, scheduled_time):
     current_time = datetime.now()
 
@@ -40,6 +45,93 @@ def send_scheduled_message(type, message, chat_ids, scheduled_time):
         print_log(f"The scheduled time has already passed. The message was not sent.")
 
 
+def get_schedueled_times():
+    # Messages for compiling attendance
+    return {
+        -1: [
+            {
+                "schedule": datetime.now().replace(
+                    hour=9, minute=15, second=0, microsecond=0
+                ),
+                "type": "YOUTH",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=12, minute=0, second=0, microsecond=0
+                ),
+                "type": "YOUTH",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=18, minute=0, second=0, microsecond=0
+                ),
+                "type": "YOUTH",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=21, minute=0, second=0, microsecond=0
+                ),
+                "type": "YOUTH",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=22, minute=0, second=0, microsecond=0
+                ),
+                "type": "YOUTH",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=9, minute=15, second=0, microsecond=0
+                ),
+                "type": "SIR",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=18, minute=0, second=0, microsecond=0
+                ),
+                "type": "SIR",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=22, minute=0, second=0, microsecond=0
+                ),
+                "type": "SIR",
+            },
+            # TEST TIMES
+            {
+                "schedule": datetime.now().replace(
+                    hour=11, minute=6, second=0, microsecond=0
+                ),
+                "type": "TEST",
+            },
+            {
+                "schedule": datetime.now().replace(
+                    hour=11, minute=6, second=0, microsecond=0
+                ),
+                "type": "TEST",
+            },
+        ],  # Everyday
+    }
+
+
+def get_reminder_message():
+    # Enter the message content to send.
+    # final date is Dec 26, 2023
+    final_date = datetime.strptime("2023-12-28", "%Y-%m-%d")
+    d_string = "D-" + str((final_date - datetime.now()).days)
+    youth_message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
+    인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
+    이 기회 놓치면 너무 아쉬우니까 
+    지금 당장 DM 보내러 고고🔥
+    """
+
+    sir_message = f"""[💥{d_string} left till Dec CT]
+    GYJNs, secure your ✨blessings✨today by checking if your members have NBed!! Deadline to send the report is till 11pm. Go check now!! 👉
+    """
+
+    return youth_message, sir_message
+
+
 # Load the .env file.
 load_dotenv()
 
@@ -54,107 +146,13 @@ with open("youth_groups.json", "r") as f:
 with open("sir_groups.json", "r") as f:
     sir_groups = json.load(f)
 
-# Set the desired year.
-desired_year = "40"
-
-# 현재 날짜와 시간을 가져옵니다.
-current_date = datetime.now()
-
-# Get the current date and time.
-current_date = current_date.replace(year=int(desired_year))
-
-# Change the date to the desired year.
-newdate = current_date.strftime(f"{desired_year}%m%d")
-
-# Enter the message content to send.
-# final date is Dec 26, 2023
-final_date = datetime.strptime("2023-12-28", "%Y-%m-%d")
-d_string = "D-" + str((final_date - datetime.now()).days)
-youth_message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
-인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
-이 기회 놓치면 너무 아쉬우니까 
-지금 당장 DM 보내러 고고🔥
-"""
-
-sir_message = f"""[💥{d_string} left till Dec CT]
-GYJNs, secure your ✨blessings✨today by checking if your members have NBed!! Deadline to send the report is till 11pm. Go check now!! 👉
-"""
-
-# Messages for compiling attendance
-scheduled_times = {
-    -1: [
-        {
-            "schedule": datetime.now().replace(
-                hour=9, minute=0, second=0, microsecond=0
-            ),
-            "type": "YOUTH",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=12, minute=0, second=0, microsecond=0
-            ),
-            "type": "YOUTH",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=18, minute=0, second=0, microsecond=0
-            ),
-            "type": "YOUTH",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=21, minute=0, second=0, microsecond=0
-            ),
-            "type": "YOUTH",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=22, minute=0, second=0, microsecond=0
-            ),
-            "type": "YOUTH",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=9, minute=0, second=0, microsecond=0
-            ),
-            "type": "SIR",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=18, minute=0, second=0, microsecond=0
-            ),
-            "type": "SIR",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=22, minute=0, second=0, microsecond=0
-            ),
-            "type": "SIR",
-        },
-        # TEST TIMES
-        {
-            "schedule": datetime.now().replace(
-                hour=11, minute=6, second=0, microsecond=0
-            ),
-            "type": "TEST",
-        },
-        {
-            "schedule": datetime.now().replace(
-                hour=11, minute=6, second=0, microsecond=0
-            ),
-            "type": "TEST",
-        },
-    ],  # Everyday
-}
-
 # Telegram bot API URL
 url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
 
 # Function to send scheduled messages
 while True:
-    # Function to get the current weekday
-    def get_current_weekday():
-        return datetime.now().weekday()
+    scheduled_times = get_schedueled_times()
+    youth_message, sir_message = get_reminder_message()
 
     # Send scheduled messages for the current weekday
     current_weekday = get_current_weekday()
@@ -207,7 +205,7 @@ while True:
                 scheduled_time["schedule"],
             )
     else:
-        print_log(f"Today is not the day to send scheduled messages.")
+        pass
 
     # sleep for the rest of the minute
     time.sleep(60 - datetime.now().second)
