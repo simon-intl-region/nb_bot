@@ -117,11 +117,11 @@ def get_schedueled_times():
 def get_reminder_message():
     # Enter the message content to send.
     # final date is Dec 26, 2023
-    final_date = datetime.strptime("2024-01-10", "%Y-%m-%d")
+    final_date = datetime.strptime("2024-01-11", "%Y-%m-%d")
     d_string = "D-" + str((final_date - datetime.now()).days)
-    youth_message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 💥{d_string}💥밖에 안남았다는 소식!
+    youth_message = f"""(글특알리미) 마나도 소성에 함께할 수 있는날이 늘어났다니!! 천만다행!! 💥{d_string}💥남았다는 소식!
     인도네시아 해외소성에 함께할 수 있는 날이 얼마남지 않았어요 😭
-    이 기회 놓치면 너무 아쉬우니까 
+    이 기회 놓치면 평생 아쉬우니까 
     지금 당장 DM 보내러 고고🔥
     """
 
