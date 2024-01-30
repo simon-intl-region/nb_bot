@@ -103,7 +103,7 @@ bot_token = os.getenv("EDU_BOT_TOKEN")
 # Telegram room id where we send the messages
 # import from json file named youth_groups.json
 
-with open("sir_edu_roups.json", "r") as f:
+with open("sir_edu_groups.json", "r") as f:
     edu_groups = json.load(f)
 
 # Telegram bot API URL
