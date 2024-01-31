@@ -87,9 +87,9 @@ def get_schedueled_times():
 def get_reminder_message():
     # Enter the message content to send.
     # final date is Dec 26, 2023
-    edu_1 = "Please schedule tomorrow daily bread"
+    edu_1 = "Please send the daily bread before 9am"
 
-    edu_2 = "Please send daily bread before 9am"
+    edu_2 = "Please schedule tomorrow's daily bread"
 
     return edu_1, edu_2
 
