@@ -48,7 +48,8 @@ def send_scheduled_message(type, message, chat_ids, scheduled_time):
                     "text": f"Failed to send scheduled message: TYPE: {type}, CHAT_ID: {chat_id} {response.status_code}",
                 }
     else:
-        print_log(f"The scheduled time has already passed. The message was not sent.")
+        pass
+        # print_log(f"The scheduled time has already passed. The message was not sent.")
 
 
 def get_schedueled_times():
